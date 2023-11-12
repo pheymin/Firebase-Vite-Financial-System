@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <title>Transaction</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
 </head>
 
 <body id="pages">
@@ -13,7 +15,7 @@
         <div class="p-4 border-2 bg-[#27282d] border-dashed rounded-lg dark:border-[#4b4c53] min-h-screen space-y-5">
             <div class="flex justify-between">
                 <button id="prev-date" class="text-3xl px-5 py-2 rounded-full hover:bg-[#212227]">&lt;</button>
-                <h1 class="text-2xl text-center py-2">November 2023</h1>
+                <h1 id="current-date" class="text-2xl text-center py-2"></h1>
                 <button id="after-date" class="text-3xl px-5 py-2 rounded-full hover:bg-[#212227]">&gt;</button>
             </div>
 
@@ -71,7 +73,7 @@
             </div>
 
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                class="bg-[#fc5f5a] text-3xl px-4 py-2 rounded-full float-right z-10 absolute bottom-5 right-10 hover:shadow-2xl hover:shadow-[#4b4c53]"
+                class="bg-[#fc5f5a] dark:bg-[#fc5f5a] text-3xl px-4 py-2 rounded-full float-right z-10 absolute bottom-5 right-10 hover:shadow-2xl hover:shadow-[#4b4c53]"
                 type="button">+</button>
 
             <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -97,59 +99,19 @@
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <form id="addTransaction" class="p-4 md:p-5">
-                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                <div class="col-span-2">
-                                    <label for="date" class="block mb-2 text-sm font-medium">Date</label>
-                                    <input type="date" name="date" id="date"
-                                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-[#fc5f5a] focus:border-[#fc5f5a] block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500"
-                                        required="">
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="amount"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-                                    <input type="number" name="amount" id="amount"
-                                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-[#fc5f5a] focus:border-[#fc5f5a] block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500"
-                                        required="" step="0.01" min="0.01" max="999999.99">
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="category"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                    <select id="category"
-                                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-[#fc5f5a] focus:border-[#fc5f5a] block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500">
-                                        <option value="food">Food</option>
-                                        <option value="social">Social</option>
-                                        <option value="pets">Pets</option>
-                                        <option value="transport">Transport</option>
-                                        <option value="household">Household</option>
-                                        <option value="entertainment">Entertainment</option>
-                                        <option value="apparel">Apparel</option>
-                                        <option value="beauty">Beauty</option>
-                                        <option value="health">Health</option>
-                                        <option value="education">Education</option>
-                                        <option value="gifts">Gifts</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="note"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Note</label>
-                                    <textarea id="note" name="note" rows="3"
-                                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-[#fc5f5a] focus:border-[#fc5f5a] block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500"></textarea>
-                                </div>
-                            </div>
-                            <button type="submit"
-                                class="text-white inline-flex items-center bg-[#fc5f5a] hover:bg-[#ff423c] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                + Add new transaction
-                            </button>
-                        </form>
+                        <div id="btn-group" class="grid gap-2 grid-cols-3 p-4 md:p-5">
+                            <button id="earn-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Earn</button>
+                            <button id="expenses-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Expense</button>
+                            <button id="limit-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Limit</button>
+                        </div>
+                        <form id="addTransaction" class="p-4 md:p-5"></form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/transactions.js"></script>
 </body>

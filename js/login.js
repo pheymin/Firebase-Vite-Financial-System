@@ -7,11 +7,6 @@ $(document).ready(function () {
         const email = $("#email").val();
         const password = $("#password").val();
 
-        const user = {
-            email,
-            password,
-        };
-
         const fbStore = new FBStore();
         let query = [["email", "==", email], ["password", "==", password]];
 
