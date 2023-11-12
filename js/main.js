@@ -1,8 +1,8 @@
-import './style.css';
+import '../style.css';
 import $ from 'jquery';
 
 let sideBar =
-	`
+    `
 <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
             aria-controls="default-sidebar" type="button"
             class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -21,8 +21,8 @@ let sideBar =
             <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-[#27282d]">
                 <ul class="space-y-2 font-medium">
                     <li>
-                        <a href="./index.html"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
+                        <a id="index" href="./index.html"
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
                             <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 22 21">
@@ -35,8 +35,8 @@ let sideBar =
                         </a>
                     </li>
                     <li>
-                        <a href="./transactions.html"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
+                        <a id="transactions" href="./transactions.html"
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                                 <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -46,8 +46,8 @@ let sideBar =
                         </a>
                     </li>
                     <li>
-                        <a href="./help.html"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
+                        <a id="help" href="./help.html"
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 20 20">
@@ -59,7 +59,7 @@ let sideBar =
                     </li>
                     <li>
                         <a href="./login.html"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#ff6155] group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -74,5 +74,18 @@ let sideBar =
         </aside>
 `;
 
-//append sidebar on top of #pages
-$("#pages").prepend(sideBar);
+$(document).ready(function () {
+    //append sidebar on top of #pages
+    $("#pages").prepend(sideBar);
+
+    //add active class to sidebar
+    let url = window.location.href;
+    let page = url.substr(url.lastIndexOf('/') + 1);
+    let pageName = page.split('.')[0];
+
+    if (pageName === "") {
+        $("#index").addClass("bg-[#ff6155]");
+    } else {
+        $("#" + pageName).addClass("bg-[#ff6155]");
+    }
+});
