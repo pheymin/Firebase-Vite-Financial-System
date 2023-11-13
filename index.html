@@ -42,12 +42,12 @@
                 class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
                 <ul class="flex justify-center items-center w-full -mb-px">
                     <li class="me-1 w-full">
-                        <a href="#"
-                            class="inline-block w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">Earn</a>
+                        <a href="#earn" id="earn-tab"
+                            class="inline-block w-full p-4 border-b-2 border-transparent rounded-t-lg">Earn</a>
                     </li>
                     <li class="me-1 w-full">
-                        <a href="#"
-                            class="inline-block w-full p-4 border-b-2 rounded-t-lg active dark:text-[#ff6155] dark:border-[#ff6155]"
+                        <a href="#expenses" id="expenses-tab"
+                            class="inline-block w-full p-4 border-b-2 rounded-t-lg"
                             aria-current="page">Expenses</a>
                     </li>
                 </ul>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="relative overflow-x-auto rounded-lg">
-                    <table class="w-full text-sm text-left rtl:text-right">
+                    <table id="summary-table" class="w-full text-sm text-left rtl:text-right">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-[#4b4c53]">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -112,120 +112,15 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="bg-white border-b dark:bg-[#212227] dark:border-[#4b4c53]">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium whitespace-nowrap">
-                                    50%
-                                </th>
-                                <td class="px-6 py-4">
-                                    Laptop
-                                </td>
-                                <td class="px-6 py-4">
-                                    $2999
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-[#212227] dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium whitespace-nowrap">
-                                    20%
-                                </th>
-                                <td class="px-6 py-4">
-                                    Laptop PC
-                                </td>
-                                <td class="px-6 py-4">
-                                    $1999
-                                </td>
-                            </tr>
-                            <tr class="bg-white dark:bg-[#212227]">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium whitespace-nowrap">
-                                    10%
-                                </th>
-                                <td class="px-6 py-4">
-                                    Accessories
-                                </td>
-                                <td class="px-6 py-4">
-                                    $99
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
     <script src="node_modules/apexcharts/dist/apexcharts.min.js"></script>
-    <script>
-        // ApexCharts options and config
-        window.addEventListener("load", function () {
-            const getChartOptions = () => {
-                return {
-                    series: [52.8, 26.8, 20.4],
-                    colors: ["#1C64F2", "#16BDCA", "#9061F9"],
-                    chart: {
-                        height: 420,
-                        width: "100%",
-                        type: "pie",
-                    },
-                    stroke: {
-                        colors: ["white"],
-                        lineCap: "",
-                    },
-                    plotOptions: {
-                        pie: {
-                            labels: {
-                                show: true,
-                            },
-                            size: "100%",
-                            dataLabels: {
-                                offset: -25
-                            }
-                        },
-                    },
-                    labels: ["Direct", "Organic search", "Referrals"],
-                    dataLabels: {
-                        enabled: true,
-                        style: {
-                            fontFamily: "Inter, sans-serif",
-                        },
-                    },
-                    legend: {
-                        position: "bottom",
-                        fontFamily: "Inter, sans-serif",
-                    },
-                    yaxis: {
-                        labels: {
-                            formatter: function (value) {
-                                return value + "%"
-                            },
-                        },
-                    },
-                    xaxis: {
-                        labels: {
-                            formatter: function (value) {
-                                return value + "%"
-                            },
-                        },
-                        axisTicks: {
-                            show: false,
-                        },
-                        axisBorder: {
-                            show: false,
-                        },
-                    },
-                }
-            }
-
-            if (document.getElementById("pie-chart") && typeof ApexCharts !== 'undefined') {
-                const chart = new ApexCharts(document.getElementById("pie-chart"), getChartOptions());
-                chart.render();
-            }
-        });
-    </script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/dashboard.js"></script>
 </body>

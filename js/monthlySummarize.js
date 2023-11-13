@@ -108,4 +108,4 @@ function calculateMonthlyTrans(data, type) {
     return formatDecimal(monthlyTotal);
 }
 
-export { loadSummary, getCurrentDate, getCurrentDateData };
+export { loadSummary, getCurrentDate, getCurrentDateData, convertToYYYYMM };
