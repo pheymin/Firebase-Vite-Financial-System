@@ -69,6 +69,22 @@ $(document).ready(function () {
         addTransactionDOM("limit");
         checkLimitExist();
     });
+
+    var doc = new jsPDF();
+    $("#saveAsPdfBtn").click(function () {
+        var elementHandlers = {
+            '#ignorePDF': function (element, renderer) {
+                return true;
+            }
+        };
+
+        doc.fromHTML($('#transaction').html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': elementHandlers
+        });
+        doc.save('transaction.pdf');
+    });
+
 });
 
 async function getTransactionData() {
@@ -283,7 +299,7 @@ function addTableRow(tableId, transaction) {
     let textColorClass = transaction.type === "earn" ? "text-[#54a6fd]" : "text-[#ff6155]";
 
     let row = `
-    <tr class="bg-white border-b dark:bg-[#212227] dark:border-[#4b4c53]">
+    <tr class="bg-bg-[#212227] border-b dark:bg-[#212227] dark:border-[#4b4c53]">
         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-[#54555a]">${transaction.category}</td>
         <td class="px-6 py-4">${transaction.note}</td>
         <td class="px-6 py-4"></td>
@@ -296,10 +312,10 @@ function addTableRow(tableId, transaction) {
 function addTableHead(tableId, totalEarn, totalExpenses) {
     let head = `
     <tr>
-        <th scope="col" class="px-6 py-3 text-lg w-1/5">${tableId}</th>
-        <th scope="col" class="px-6 py-3 w-2/5"></th>
-        <th scope="col" class="text-sm px-6 py-3 w-1/5 text-[#54a6fd]">${totalEarn}</th>
-        <th scope="col" class="text-sm px-6 py-3 w-1/5 text-[#ff6155]">${totalExpenses}</th>
+        <th scope="col" class="px-6 py-3 text-lg" width="20%">${tableId}</th>
+        <th scope="col" class="px-6 py-3" width="40%"></th>
+        <th scope="col" class="text-sm px-6 py-3 text-[#54a6fd]" width="20%">${totalEarn}</th>
+        <th scope="col" class="text-sm px-6 py-3 text-[#ff6155]" width="20%">${totalExpenses}</th>
     </tr>`;
 
     $('#' + tableId + ' thead').append(head);
@@ -309,7 +325,7 @@ function createTable(tableId) {
     let table = `
     <div id="${tableId}" class="relative overflow-x-auto mb-4">
         <table class="w-full text-sm text-left rtl:text-right">
-            <thead class="text-xs uppercase bg-gray-50 dark:bg-[#4b4c53]"></thead>
+            <thead class="text-xs uppercase bg-gray-600 dark:bg-[#4b4c53]"></thead>
             <tbody></tbody>
         </table>
     </div>`;

@@ -8,6 +8,7 @@
     <title>Transaction</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 </head>
 
 <body id="pages">
@@ -40,9 +41,12 @@
             </div>
 
             <div id="transaction"></div>
+            <button id="saveAsPdfBtn"
+                class="inline-flex items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500 dark:bg-red-500">Save
+                as PDF</button>
 
             <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                class="bg-[#fc5f5a] dark:bg-[#fc5f5a] text-3xl px-4 py-2 rounded-full float-right z-10 absolute bottom-5 right-10 hover:shadow-2xl hover:shadow-[#4b4c53]"
+                class="bg-[#fc5f5a] dark:bg-[#fc5f5a] text-3xl px-4 py-2 rounded-full hover:shadow-2xl hover:shadow-[#4b4c53] sticky-button"
                 type="button">+</button>
 
             <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -69,9 +73,12 @@
                         </div>
                         <!-- Modal body -->
                         <div id="btn-group" class="grid gap-2 grid-cols-3 p-4 md:p-5">
-                            <button id="earn-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Earn</button>
-                            <button id="expenses-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Expense</button>
-                            <button id="limit-btn" class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Limit</button>
+                            <button id="earn-btn"
+                                class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Earn</button>
+                            <button id="expenses-btn"
+                                class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Expense</button>
+                            <button id="limit-btn"
+                                class="text-center border border-gray-500 py-2 rounded-lg text-sm w-full">Limit</button>
                         </div>
                         <form id="addTransaction" class="p-4 md:p-5"></form>
                     </div>
@@ -86,3 +93,12 @@
 </body>
 
 </html>
+
+<style>
+    .sticky-button {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 10;
+    }
+</style>

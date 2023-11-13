@@ -91,4 +91,9 @@ $(document).ready(function () {
     $("#logout").click(function () {
         localStorage.removeItem("user");
     });
+
+    // if localstorage is empty, redirect to login page
+    if (localStorage.getItem("user") === null) {
+        window.location.href = "/login.html";
+    }
 });
