@@ -47,8 +47,10 @@ async function getCurrentDateData(fbStore) {
         ['date', '<', endDate]
     ];
 
+    var orderBy = ['date', 'desc'];
+
     try {
-        const querySnapshot = await fbStore.query(`users/${user.id}/transactions/`, query);
+        const querySnapshot = await fbStore.query(`users/${user.id}/transactions/`, query, orderBy);
         return querySnapshot.length > 0 ? querySnapshot : [];
     } catch (error) {
         console.error("Error:", error);
@@ -61,7 +63,7 @@ async function getLimit(fbStore) {
     var query = ['date', '==', date];
     try {
         const querySnapshot = await fbStore.query(`users/${user.id}/limits/`, query);
-        return querySnapshot.length > 0 ? querySnapshot : [];
+        return querySnapshot.length > 0 ? formatDecimal(querySnapshot[0].amount) : 0;
     } catch (error) {
         console.error("Error:", error);
         throw error;
@@ -76,7 +78,7 @@ async function loadSummary(fbStore) {
         let monthlyExpenses = calculateMonthlyTrans(data, "expenses");
         let monthlyBalance = (monthlyEarn - monthlyExpenses);
 
-        $("#monthly-limit").text(formatDecimal(limit[0].amount));
+        $("#monthly-limit").text(limit);
         $("#monthly-earn").text(monthlyEarn);
         $("#monthly-expenses").text(monthlyExpenses);
         $("#monthly-balance").text(formatDecimal(monthlyBalance));
@@ -106,4 +108,4 @@ function calculateMonthlyTrans(data, type) {
     return formatDecimal(monthlyTotal);
 }
 
-export { loadSummary, getCurrentDate };
+export { loadSummary, getCurrentDate, getCurrentDateData };

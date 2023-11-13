@@ -1,15 +1,19 @@
 import { FBStore } from "../firebase/storeHandler.js";
 import $ from 'jquery';
-import { loadSummary, getCurrentDate } from "./monthlySummarize.js";
+import { loadSummary, getCurrentDate, getCurrentDateData } from "./monthlySummarize.js";
 
 const fbStore = new FBStore();
 let user = JSON.parse(localStorage.getItem("user"));
+let data = null;
 
 $(document).ready(function () {
     //init
     $("#current-date").text(getCurrentDate());
     addTransactionDOM("expenses");
     loadSummary(fbStore);
+    getTransactionData().then(() => {
+        loadTransactions();
+    });
 
     //event
     $("#prev-date").click(function () {
@@ -17,6 +21,12 @@ $(document).ready(function () {
         date.setMonth(date.getMonth() - 1);
         $("#current-date").text(date.toLocaleString('default', { month: 'long' }) + " " + date.getFullYear());
         loadSummary(fbStore);
+
+        //clear #transaction
+        $("#transaction").html("");
+        getTransactionData().then(() => {
+            loadTransactions();
+        });
     });
 
     $("#after-date").click(function () {
@@ -24,6 +34,12 @@ $(document).ready(function () {
         date.setMonth(date.getMonth() + 1);
         $("#current-date").text(date.toLocaleString('default', { month: 'long' }) + " " + date.getFullYear());
         loadSummary(fbStore);
+
+        //clear #transaction
+        $("#transaction").html("");
+        getTransactionData().then(() => {
+            loadTransactions();
+        });
     });
 
     $("#addTransaction").submit(function (event) {
@@ -54,6 +70,14 @@ $(document).ready(function () {
         checkLimitExist();
     });
 });
+
+async function getTransactionData() {
+    try {
+        data = await getCurrentDateData(fbStore);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
 
 let addTransactionForm = `
     <div class="grid gap-4 mb-4 grid-cols-2">
@@ -219,23 +243,75 @@ function checkLimitExist() {
         });
 }
 
-function loadTransactions(){
-    var date = $("#current-date").text();
-    var query = [["date", "==", date]];
+function loadTransactions() {
+    // Create an object to store daily totals
+    let dailyTotals = {};
 
-    fbStore.query(`users/${user.id}/transactions/`, query)
-        .then((querySnapshot) => {
-            if (querySnapshot.length > 0) {
-                $("#amount").prop("disabled", true);
-                $("#submit-btn").prop("disabled", true);
-                $("#amount").val(querySnapshot[0].amount);
-            } else {
-                $("#amount").prop("disabled", false);
-                $("#submit-btn").prop("disabled", false);
-                $("#amount").val("");
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+    data.forEach(function (transaction) {
+        let date = transaction.date.split("-");
+        let day = date[2];
+
+        // Initialize daily total if not already created
+        if (!dailyTotals[day]) {
+            dailyTotals[day] = { earnTotal: 0, expensesTotal: 0 };
+        }
+
+        // Update daily totals based on transaction type
+        if (transaction.type === "earn") {
+            dailyTotals[day].earnTotal += Number(transaction.amount);
+        } else if (transaction.type === "expenses") {
+            dailyTotals[day].expensesTotal += Number(transaction.amount);
+        }
+    });
+
+    // Extract days into an array and sort in descending order
+    const sortedDays = Object.keys(dailyTotals).sort((a, b) => parseInt(b) - parseInt(a));
+
+    // Iterate through sorted days and create tables
+    for (let day of sortedDays) {
+        createTable(day);
+        addTableHead(day, dailyTotals[day].earnTotal, dailyTotals[day].expensesTotal);
+
+        let dayTransactions = data.filter(transaction => transaction.date.split("-")[2] === day);
+
+        // Add rows for each transaction
+        dayTransactions.forEach(transaction => addTableRow(day, transaction));
+    }
+}
+
+function addTableRow(tableId, transaction) {
+    let textColorClass = transaction.type === "earn" ? "text-[#54a6fd]" : "text-[#ff6155]";
+
+    let row = `
+    <tr class="bg-white border-b dark:bg-[#212227] dark:border-[#4b4c53]">
+        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-[#54555a]">${transaction.category}</td>
+        <td class="px-6 py-4">${transaction.note}</td>
+        <td class="px-6 py-4"></td>
+        <td class="px-6 py-4 ${textColorClass}">${transaction.amount}</td>
+    </tr>`;
+
+    $('#' + tableId + ' tbody').append(row);
+}
+
+function addTableHead(tableId, totalEarn, totalExpenses) {
+    let head = `
+    <tr>
+        <th scope="col" class="px-6 py-3 text-lg w-1/5">${tableId}</th>
+        <th scope="col" class="px-6 py-3 w-2/5"></th>
+        <th scope="col" class="text-sm px-6 py-3 w-1/5 text-[#54a6fd]">${totalEarn}</th>
+        <th scope="col" class="text-sm px-6 py-3 w-1/5 text-[#ff6155]">${totalExpenses}</th>
+    </tr>`;
+
+    $('#' + tableId + ' thead').append(head);
+}
+
+function createTable(tableId) {
+    let table = `
+    <div id="${tableId}" class="relative overflow-x-auto mb-4">
+        <table class="w-full text-sm text-left rtl:text-right">
+            <thead class="text-xs uppercase bg-gray-50 dark:bg-[#4b4c53]"></thead>
+            <tbody></tbody>
+        </table>
+    </div>`;
+    $("#transaction").append(table);
 }
