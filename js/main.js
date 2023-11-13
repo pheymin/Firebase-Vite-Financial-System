@@ -21,7 +21,7 @@ let sideBar =
                 <ul class="space-y-2 font-medium">
                     <li>
                         <a id="index" href="./index.html"
-                            class="flex items-center p-2 rounded-lg hover:bg-[#ff6155] group">
+                            class="flex items-center p-2 rounded-lg hover:bg-red-500 group">
                             <svg class="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 22 21">
@@ -35,7 +35,7 @@ let sideBar =
                     </li>
                     <li>
                         <a id="transactions" href="./transactions.html"
-                            class="flex items-center p-2 rounded-lg hover:bg-[#ff6155] group">
+                            class="flex items-center p-2 rounded-lg hover:bg-red-500 group">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                                 <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -46,7 +46,7 @@ let sideBar =
                     </li>
                     <li>
                         <a id="help" href="./help.html"
-                            class="flex items-center p-2 rounded-lg hover:bg-[#ff6155] group">
+                            class="flex items-center p-2 rounded-lg hover:bg-red-500 group">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 20 20">
@@ -58,7 +58,7 @@ let sideBar =
                     </li>
                     <li>
                         <a id="logout" href="./login.html"
-                            class="flex items-center p-2 rounded-lg hover:bg-[#ff6155] group">
+                            class="flex items-center p-2 rounded-lg dark:hover:bg-red-500 group">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

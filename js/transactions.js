@@ -1,26 +1,29 @@
 import { FBStore } from "../firebase/storeHandler.js";
 import $ from 'jquery';
+import { loadSummary, getCurrentDate } from "./monthlySummarize.js";
 
 const fbStore = new FBStore();
 let user = JSON.parse(localStorage.getItem("user"));
 
 $(document).ready(function () {
     //init
+    $("#current-date").text(getCurrentDate());
     addTransactionDOM("expenses");
+    loadSummary(fbStore);
 
     //event
     $("#prev-date").click(function () {
         var date = new Date($("#current-date").text());
         date.setMonth(date.getMonth() - 1);
         $("#current-date").text(date.toLocaleString('default', { month: 'long' }) + " " + date.getFullYear());
-        // loadTransactions();
+        loadSummary(fbStore);
     });
 
     $("#after-date").click(function () {
         var date = new Date($("#current-date").text());
         date.setMonth(date.getMonth() + 1);
         $("#current-date").text(date.toLocaleString('default', { month: 'long' }) + " " + date.getFullYear());
-        // loadTransactions();
+        loadSummary(fbStore);
     });
 
     $("#addTransaction").submit(function (event) {
@@ -51,13 +54,6 @@ $(document).ready(function () {
         checkLimitExist();
     });
 });
-
-function getCurrentDate() {
-    var date = new Date();
-    var month = date.toLocaleString('default', { month: 'long' });
-    var year = date.getFullYear();
-    return month + " " + year;
-}
 
 let addTransactionForm = `
     <div class="grid gap-4 mb-4 grid-cols-2">
@@ -113,7 +109,7 @@ let addLimitForm = `
         <input id="type" type="hidden" name="type" value="limit">
     </div>
     <button type="submit" id="submit-btn"
-    class="text-white inline-flex items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#27282d] dark:bg-[#27282d] hover:bg-[#212227]">
+    class="text-white inline-flex items-center font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-gray-900 dark:bg-gray-900 hover:bg-gray-800">
     + Add new limit
     </button>
 `;
@@ -131,8 +127,8 @@ function addTransactionDOM(type) {
         $("#addTransaction").html(addTransactionForm);
         if (type == "expenses") {
             categories = ["Food", "Social", "Pets", "Transportation", "Household", "Entertainment", "Clothing", "Health", "Gift", "Education", "Other"];
-            $("#expenses-btn").addClass("bg-[#ff6155] dark:bg-[#ff6155]");
-            $("#submit-btn").addClass("bg-[#ff6155] dark:bg-[#ff6155]");
+            $("#expenses-btn").addClass("bg-red-500 dark:bg-red-500");
+            $("#submit-btn").addClass("bg-red-500 dark:bg-red-500");
             $("#type").val("expenses");
         } else if (type == "earn") {
             categories = ["Salary", "Allowance", "Bonus", "Petty Cash", "Other"];
@@ -147,9 +143,8 @@ function addTransactionDOM(type) {
 
         var today = new Date().toISOString().split('T')[0];
         $('#date').prop('max', today);
-        $("#current-date").text(getCurrentDate());
     } else if (type == "limit") {
-        $("#limit-btn").addClass("bg-[#27282d] dark:bg-[#27282d]");
+        $("#limit-btn").addClass("bg-gray-900 dark:bg-gray-900");
         $("#addTransaction").html(addLimitForm);
     }
 }
@@ -191,7 +186,6 @@ function addLimit() {
         amount: amount,
         timestamp: fbStore.getServerTimestamp(),
     };
-    console.log(limit);
     fbStore.writeSubCollection("users", user.id, "limits", limit)
         .then((docID) => {
             if (docID) {
@@ -209,6 +203,27 @@ function checkLimitExist() {
     var query = [["date", "==", date]];
 
     fbStore.query(`users/${user.id}/limits/`, query)
+        .then((querySnapshot) => {
+            if (querySnapshot.length > 0) {
+                $("#amount").prop("disabled", true);
+                $("#submit-btn").prop("disabled", true);
+                $("#amount").val(querySnapshot[0].amount);
+            } else {
+                $("#amount").prop("disabled", false);
+                $("#submit-btn").prop("disabled", false);
+                $("#amount").val("");
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
+function loadTransactions(){
+    var date = $("#current-date").text();
+    var query = [["date", "==", date]];
+
+    fbStore.query(`users/${user.id}/transactions/`, query)
         .then((querySnapshot) => {
             if (querySnapshot.length > 0) {
                 $("#amount").prop("disabled", true);

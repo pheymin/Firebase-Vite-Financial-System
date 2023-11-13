@@ -15,26 +15,26 @@
         <div class="p-4 border-2 bg-[#27282d] border-dashed rounded-lg dark:border-[#4b4c53] min-h-screen space-y-5">
             <div class="flex justify-between">
                 <button id="prev-date" class="text-3xl px-5 py-2 rounded-full hover:bg-[#212227]">&lt;</button>
-                <h1 class="text-2xl text-center py-2">November 2023</h1>
+                <h1 id="current-date" class="text-2xl text-center py-2"></h1>
                 <button id="after-date" class="text-3xl px-5 py-2 rounded-full hover:bg-[#212227]">&gt;</button>
             </div>
             
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 h-1/5">
                 <div class="rounded-xl bg-[#212227] h-full px-6 py-8 space-y-2">
                     <h3>Limit</h3>
-                    <h2 class="text-3xl font-medium">RM200</h2>
+                    <h2 id="monthly-limit"  class="text-3xl font-medium">0</h2>
                 </div>
                 <div class="rounded-xl bg-[#ff6155] h-full px-6 py-8 space-y-2">
                     <h3>Balance</h3>
-                    <h2 class="text-3xl font-medium">RM200</h2>
+                    <h2 id="monthly-earn" class="text-3xl font-medium">0</h2>
                 </div>
                 <div class="rounded-xl bg-[#212227] h-full px-6 py-8 space-y-2 border border-[#ff6155]">
                     <h3 class="text-[#ff6155]">Expenses</h3>
-                    <h2 class="text-3xl font-medium text-[#ff6155]">RM200</h2>
+                    <h2 id="monthly-expenses" class="text-3xl font-medium text-[#ff6155]">0</h2>
                 </div>
                 <div class="rounded-xl bg-[#212227] h-full px-6 py-8 space-y-2 border border-[#54a6fd]">
                     <h3 class="text-[#54a6fd]">Earn</h3>
-                    <h2 class="text-3xl font-medium text-[#54a6fd]">RM200</h2>
+                    <h2 id="monthly-balance" class="text-3xl font-medium text-[#54a6fd]">0</h2>
                 </div>
             </div>
 
@@ -227,6 +227,7 @@
         });
     </script>
     <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
 </body>
 
 </html>
